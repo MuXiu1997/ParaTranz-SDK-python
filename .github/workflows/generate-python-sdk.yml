@@ -1,0 +1,66 @@
+name: Generate Python SDK
+
+on:
+  workflow_dispatch:
+
+env:
+  OPENAPI_FILE: paratranz-openapi.json
+
+jobs:
+  generate:
+    name: Generate Python SDK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download OpenAPI JSON File
+        run: |
+          curl -L 'https://paratranz.cn/api-docs/?raw=1' -o ${{ env.OPENAPI_FILE }}
+
+      - name: Parse API Version
+        shell: python
+        # language="python"
+        run: |
+          import json
+          import os
+          
+          with open('${{ env.OPENAPI_FILE }}', 'r') as f:
+              data = json.load(f)
+          with open(os.path.join(os.environ['GITHUB_ENV']), 'a') as f:
+              print(f'OPENAPI_API_VERSION={data["info"]["version"]}', file=f)
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          path: repo
+
+      - name: Generate SDK
+        # language="Shell Script"
+        run: |
+          find repo -maxdepth 1 ! -path 'repo' ! -path 'repo/.git' ! -path 'repo/.github' -exec rm -rf {} +
+          docker run --rm \
+            -v ${PWD}:/local openapitools/openapi-generator-cli generate \
+            -i /local/${{ env.OPENAPI_FILE }} \
+            -g python \
+            -o /local/repo \
+            --skip-validate-spec \
+            --openapi-generator-ignore-list '.github/**,.gitlab-ci.yml,.travis.yml,git_push.sh' \
+            -p library=asyncio \
+            -p packageName=paratranz_client \
+            -p packageVersion=3.0.4 \
+            -p projectName=paratranz \
+            --git-host github.com \
+            --git-user-id ${{ github.repository_owner }} \
+            --git-repo-id $(basename '${{ github.repository }}')
+          tree . -a
+
+      - name: Commit And Push
+        working-directory: repo
+        # language="Shell Script"
+        run: |
+          git config --global user.name 'MuXiu1997'
+          git config --global user.email 'muxiu1997@gmail.com'
+          git add .
+          git commit -m 'Bump SDK to v${{ env.OPENAPI_API_VERSION }}'
+          git push origin
+          git tag -a v${{ env.OPENAPI_API_VERSION }} -m 'Bump SDK to v${{ env.OPENAPI_API_VERSION }}'
+          git push --delete origin v${{ env.OPENAPI_API_VERSION }} || true
+          git push origin v${{ env.OPENAPI_API_VERSION }}
