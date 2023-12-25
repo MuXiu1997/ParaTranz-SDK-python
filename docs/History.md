@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **created_at** | **datetime** |  | [optional] [readonly] 
 **field** | **str** | 修改的字段 | [optional] 
 **uid** | **int** | 用户ID | [optional] [readonly] 
+**user** | **object** | 操作者用户详情 | [optional] [readonly] 
 **tid** | **int** | 词条ID | [optional] 
 **var_from** | **str** | 修改前的值 | [optional] 
 **to** | **str** | 修改后的值 | [optional] 

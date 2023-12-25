@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **created_at** | **datetime** |  | [optional] [readonly] 
 **updated_at** | **datetime** |  | [optional] [readonly] 
 **uid** | **int** | 所有者用户ID | [optional] [readonly] 
+**user** | **object** | 所有者用户信息 | [optional] [readonly] 
 **name** | **str** | 项目名称 | [optional] 
 **logo** | **str** | 项目LOGO链接 | [optional] 
 **desc** | **str** | 项目说明 | [optional] 

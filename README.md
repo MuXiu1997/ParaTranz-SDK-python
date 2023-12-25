@@ -32,7 +32,7 @@ HTTP状态码有以下几种类型
 ## SDK 及 JSON 格式的 API 文档
 本文档遵循 OpenAPI 规范，[点击此处](https://paratranz.cn/api-docs?raw=1) 获取 JSON 格式的文档，您可以使用 [OpenAPI Generator](https://github.com/OpenAPITools/openapi-generator) 生成各种语言的 SDK
 ## 更新历史
-  * v0.3.5 - 2023.12.25 修复部分schema格式问题
+  * v0.3.5 - 2023.12.25 修复部分 schema 问题
   * v0.3.4 - 2023.12.23 增加API调用频率限制说明
   * v0.3.3 - 2023.08.11 增加项目成员相关接口说明
   * v0.3.2 - 2022.11.04 增加文件翻译相关接口说明

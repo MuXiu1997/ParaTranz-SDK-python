@@ -21,6 +21,7 @@ Name | Type | Description | Notes
 **hidden** | **int** | 已隐藏的词条数 | [optional] [readonly] 
 **locked** | **int** | 已锁定的词条数 | [optional] [readonly] 
 **words** | **int** | 总词数 | [optional] [readonly] 
+**hash** | **str** | 上一次文件更新或创建时的原文件哈希值 | [optional] [readonly] 
 
 ## Example
 
